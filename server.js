@@ -5,9 +5,19 @@ var app = express();
 
 app.get('/', function (req, res) {
    fs.readFile( "./states.json", 'utf8', function (err, data) {
-       console.log( data );
        res.end( data );
    });
+})
+
+app.get('/:state', function (req, res) {
+  fs.readFile( "./states.json", 'utf8', function (err, data) {
+      // console.log('----------------',req.params);
+      var data= JSON.parse(data);
+      data.find(item =>{
+        if(item.state == req.params.state){
+          res.end(JSON.stringify(item.border))
+        }});
+  });
 })
 
 var server = app.listen(8081, function () {
